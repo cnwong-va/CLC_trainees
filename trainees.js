@@ -1,0 +1,20 @@
+// Trainee data - EDIT THIS FILE to update trainee names and dates
+const trainees = [
+  { type:"MS4",    name:"Adam R Swanson",          start:"2026-07-08", end:"2026-07-30", location:"CLC" },
+  { type:"MS4",    name:"Aaron Yamasaki",           start:"2026-08-05", end:"2026-08-27", location:"CLC" },
+  { type:"MS4",    name:"Tyler Liu",                start:"2026-09-02", end:"2026-09-24", location:"CLC" },
+  { type:"MS4",    name:"Kasen Wong",               start:"2026-09-30", end:"2026-10-22", location:"CLC" },
+  { type:"MS4",    name:"Saige Fong",               start:"2027-02-03", end:"2027-02-25", location:"CLC" },
+  { type:"MS4",    name:"Marci Takemoto",           start:"2027-03-03", end:"2027-03-24", location:"CLC" },
+  { type:"MS4",    name:"Elizabeth Rooks",          start:"2027-04-07", end:"2027-04-29", location:"CLC" },
+  { type:"Fellow", name:"Al Ogawa",                 start:"2026-07-01", end:"2026-08-15", location:"CLC" },
+  { type:"Fellow", name:"Jaime Fong",               start:"2026-08-16", end:"2026-09-15", location:"CLC" },
+  { type:"Fellow", name:"Alyssa Finger",            start:"2026-11-16", end:"2026-12-15", location:"CLC" },
+  { type:"Fellow", name:"Kalei Hosaka",             start:"2027-01-16", end:"2027-02-15", location:"CLC" },
+  { type:"Fellow", name:"Remy Rodrigues Chardon",   start:"2027-03-16", end:"2027-04-15", location:"CLC" },
+  { type:"Fellow", name:"Stephen Rueda",            start:"2027-05-16", end:"2027-06-30", location:"CLC" },
+  { type:"PSY1",   name:"Jaymie Fines",             start:"2026-08-03", end:"2026-08-10", location:"CLC" },
+  { type:"PSY1",   name:"Conner Darlington",        start:"2026-11-16", end:"2026-11-19", location:"CLC" },
+  { type:"PSY1",   name:"Emily Han",                start:"2027-05-20", end:"2027-05-27", location:"CLC" },
+  { type:"PSY1",   name:"Joanna Ajex Palvannan",    start:"2027-06-10", end:"2027-06-17", location:"CLC" },
+];
