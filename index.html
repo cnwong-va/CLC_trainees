@@ -3,89 +3,337 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Geriatric Training Program — CLC</title>
+<title>CLC Trainee Management</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #f4f6fb; color: #1a1a2e; padding: 20px; }
-  h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-  .subtitle { font-size: 13px; color: #555; margin-bottom: 18px; }
-  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
-  .btn { padding: 5px 14px; border-radius: 20px; border: 1.5px solid #ccc; cursor: pointer;
-    background: #fff; color: #333; font-size: 13px; font-weight: 400; transition: all 0.15s; }
-  .btn.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; font-weight: 600; }
-  .btn-fellow.active  { background: #4f86c6; border-color: #2563eb; }
-  .btn-ms4.active     { background: #5a9e6f; border-color: #16a34a; }
-  .btn-psy1.active    { background: #c47ac0; border-color: #9333ea; }
-  .legend { display: flex; gap: 14px; align-items: center; margin-left: auto; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
-  .legend-dot { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
-
-  /* Timeline */
-  #timeline { overflow-x: auto; }
-  .month-axis { position: relative; height: 28px; margin-left: 170px; border-bottom: 1px solid #ddd; margin-bottom: 6px; }
-  .month-label { position: absolute; font-size: 11px; color: #666; font-weight: 600;
-    transform: translateX(-50%); white-space: nowrap; top: 4px; }
-  .group-header { font-size: 12px; font-weight: 700; display: inline-block;
-    padding: 3px 10px; border-radius: 4px; margin-bottom: 6px; border: 1px solid; }
-  .tl-row { display: flex; align-items: center; margin-bottom: 6px; height: 26px; }
-  .tl-name { width: 165px; font-size: 12px; font-weight: 500; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; padding-right: 8px; flex-shrink: 0; }
-  .tl-track { flex: 1; position: relative; height: 20px; }
-  .grid-line { position: absolute; top: 0; bottom: 0; border-left: 1px solid #eee; pointer-events: none; }
-  .tl-bar { position: absolute; height: 100%; border-radius: 4px; display: flex;
-    align-items: center; justify-content: center; cursor: default; }
-  .tl-bar span { font-size: 10px; color: #fff; font-weight: 600; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
-  .tl-bar:hover { opacity: 1 !important; filter: brightness(1.1); }
-  .group-block { margin-bottom: 18px; }
-
-  /* Monthly */
-  #monthly { display: none; }
-  .month-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .nav-btn { padding: 4px 14px; border-radius: 8px; border: 1.5px solid #ccc;
-    cursor: pointer; background: #fff; font-size: 18px; line-height: 1; }
-  .month-title { font-weight: 700; font-size: 16px; min-width: 180px; text-align: center; }
-  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-  .dow-header { text-align: center; font-size: 11px; font-weight: 700; color: #888; padding: 4px 0; }
-  .cal-cell { min-height: 76px; border: 1px solid #e5e7eb; border-radius: 6px;
-    padding: 4px 4px 2px; background: #fafafa; }
-  .cal-cell.today { border-color: #2563eb; background: #eff6ff; }
-  .cal-cell.empty { border: none; background: transparent; }
-  .day-num { font-size: 12px; font-weight: 500; color: #555; margin-bottom: 3px; }
-  .cal-cell.today .day-num { color: #2563eb; font-weight: 700; }
-  .trainee-chip { font-size: 10px; color: #fff; border-radius: 3px; padding: 1px 4px;
-    margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    font-weight: 600; cursor: default; }
+  
+  .container { max-width: 1200px; margin: 0 auto; }
+  
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
+  
+  /* Navigation */
+  .nav { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 2px solid #e5e7eb; }
+  .nav-btn { padding: 12px 16px; border: none; background: none; cursor: pointer; 
+    font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent;
+    transition: all 0.15s; }
+  .nav-btn.active { color: #1a1a2e; border-bottom-color: #2563eb; }
+  .nav-btn:hover { color: #1a1a2e; }
+  
+  /* Tab content */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  
+  /* Upload section */
+  .upload-area { border: 2px dashed #ccc; border-radius: 8px; padding: 40px; 
+    text-align: center; background: #fafafa; cursor: pointer; transition: all 0.2s; }
+  .upload-area.dragover { border-color: #2563eb; background: #eff6ff; }
+  .upload-area input[type="file"] { display: none; }
+  .upload-icon { font-size: 48px; margin-bottom: 12px; }
+  .upload-text { font-size: 16px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
+  .upload-hint { font-size: 13px; color: #666; }
+  
+  /* Format info */
+  .format-info { background: #eff6ff; border-left: 4px solid #2563eb; padding: 16px; 
+    border-radius: 4px; margin: 24px 0; }
+  .format-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .format-info p { font-size: 13px; color: #333; margin-bottom: 8px; line-height: 1.5; }
+  .format-info code { background: #fff; padding: 2px 6px; border-radius: 3px; 
+    font-family: monospace; font-size: 12px; }
+  
+  /* Preview table */
+  .preview-section { margin-top: 24px; }
+  .preview-section h2 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .preview-table { width: 100%; border-collapse: collapse; background: #fff; 
+    border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .preview-table th { background: #f3f4f6; font-weight: 700; font-size: 12px; 
+    padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+  .preview-table td { padding: 12px; border-bottom: 1px solid #e5e7eb; font-size: 13px; }
+  .preview-table tr:last-child td { border-bottom: none; }
+  .preview-table tr:hover { background: #f9fafb; }
+  
+  .type-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; 
+    font-weight: 600; font-size: 11px; }
+  .badge-fellow { background: #dbeafe; color: #1e3a5f; }
+  .badge-ms4 { background: #dcfce7; color: #14532d; }
+  .badge-psy1 { background: #fae8ff; color: #4a1772; }
+  
+  /* Messages */
+  .message { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 13px; }
+  .message.success { background: #dcfce7; color: #14532d; border-left: 4px solid #16a34a; }
+  .message.error { background: #fee2e2; color: #7f1d1d; border-left: 4px solid #dc2626; }
+  .message.warning { background: #fef3c7; color: #78350f; border-left: 4px solid #f59e0b; }
+  
+  /* Buttons */
+  .btn { padding: 10px 16px; border-radius: 6px; border: none; cursor: pointer; 
+    font-size: 13px; font-weight: 600; transition: all 0.15s; }
+  .btn-primary { background: #2563eb; color: #fff; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-secondary { background: #e5e7eb; color: #333; }
+  .btn-secondary:hover { background: #d1d5db; }
+  .btn-danger { background: #dc2626; color: #fff; }
+  .btn-danger:hover { background: #b91c1c; }
+  .btn-group { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  
+  /* Current trainees */
+  .trainees-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 16px; margin-top: 20px; }
+  .trainee-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; 
+    padding: 16px; }
+  .trainee-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .trainee-card p { font-size: 12px; color: #666; margin-bottom: 4px; }
 </style>
 </head>
 <body>
 
-<h2>Geriatric Training Program — CLC</h2>
-<p class="subtitle">AY 2026–2027 Trainee Schedule</p>
-
-<div class="controls">
-  <div style="display:flex;gap:4px">
-    <button class="btn active" id="btn-timeline" onclick="setView('timeline')">Timeline</button>
-    <button class="btn" id="btn-monthly" onclick="setView('monthly')">Monthly</button>
+<div class="container">
+  <h1>CLC Trainee Management</h1>
+  <p class="subtitle">Upload trainee schedules or view the schedule</p>
+  
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('upload')">📤 Upload Trainees</button>
+    <button class="nav-btn" onclick="switchTab('schedule')">📅 View Schedule</button>
+    <button class="nav-btn" onclick="switchTab('current')">👥 Current Trainees</button>
   </div>
-  <div style="display:flex;gap:4px;margin-left:8px">
-    <button class="btn active" id="fAll" onclick="setFilter('All')">All</button>
-    <button class="btn btn-fellow" id="fFellow" onclick="setFilter('Fellow')">Fellow</button>
-    <button class="btn btn-ms4" id="fMS4" onclick="setFilter('MS4')">MS4</button>
-    <button class="btn btn-psy1" id="fPSY1" onclick="setFilter('PSY1')">PSY1</button>
+  
+  <!-- UPLOAD TAB -->
+  <div id="upload" class="tab-content active">
+    <div class="format-info">
+      <h3>📋 Expected Format</h3>
+      <p>Upload a <strong>tab-delimited</strong> text file (.txt or .csv) with the following columns:</p>
+      <p><code>Name</code> | <code>Type</code> | <code>Start Date</code> | <code>End Date</code> | <code>Location</code></p>
+      <p><strong>Example:</strong></p>
+      <p style="background:#fff;padding:8px;border-radius:3px;font-family:monospace;font-size:12px;overflow-x:auto">
+        Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Type&nbsp;&nbsp;Start Date&nbsp;&nbsp;End Date&nbsp;&nbsp;&nbsp;&nbsp;Location<br>
+        Adam Swanson&nbsp;MS4&nbsp;&nbsp;&nbsp;2026-07-08&nbsp;&nbsp;&nbsp;2026-07-30&nbsp;&nbsp;CLC<br>
+        Al Ogawa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fellow&nbsp;2026-07-01&nbsp;&nbsp;&nbsp;2026-08-15&nbsp;&nbsp;CLC
+      </p>
+      <p><strong>Type:</strong> Fellow, MS4, or PSY1</p>
+      <p><strong>Dates:</strong> YYYY-MM-DD format</p>
+    </div>
+    
+    <div class="upload-area" id="uploadArea" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">📁</div>
+      <div class="upload-text">Drag and drop your file here</div>
+      <div class="upload-hint">or click to browse • .txt or .csv files</div>
+      <input type="file" id="fileInput" accept=".txt,.csv" onchange="handleFileSelect(event)">
+    </div>
+    
+    <div id="uploadMessage"></div>
+    <div id="previewSection"></div>
   </div>
-  <div class="legend">
-    <div class="legend-item"><span class="legend-dot" style="background:#4f86c6"></span>Fellow</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#5a9e6f"></span>Medical Student</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#c47ac0"></span>Psych Resident</div>
+  
+  <!-- SCHEDULE TAB -->
+  <div id="schedule" class="tab-content">
+    <iframe src="schedule.html" style="width:100%;border:none;min-height:800px;border-radius:8px"></iframe>
+  </div>
+  
+  <!-- CURRENT TRAINEES TAB -->
+  <div id="current" class="tab-content">
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:16px">Current Trainees</h2>
+    <div id="traineesContainer"></div>
   </div>
 </div>
 
-<div id="timeline"></div>
-<div id="monthly"></div>
-
 <script src="trainees.js"></script>
-<script src="app.js"></script>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  
+  document.getElementById(tab).classList.add('active');
+  event.target.classList.add('active');
+  
+  if (tab === 'current') {
+    displayTrainees();
+  }
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('uploadArea').classList.add('dragover');
+}
+
+function handleDragLeave(e) {
+  document.getElementById('uploadArea').classList.remove('dragover');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadArea').classList.remove('dragover');
+  const files = e.dataTransfer.files;
+  if (files.length > 0) {
+    processFile(files[0]);
+  }
+}
+
+function handleFileSelect(e) {
+  const files = e.target.files;
+  if (files.length > 0) {
+    processFile(files[0]);
+  }
+}
+
+function processFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const content = e.target.result;
+      const lines = content.trim().split('\n');
+      
+      if (lines.length < 2) {
+        showMessage('error', 'File must have at least a header row and one data row');
+        return;
+      }
+      
+      const header = lines[0].split('\t').map(h => h.trim().toLowerCase());
+      const expectedCols = ['name', 'type', 'start date', 'end date', 'location'];
+      
+      if (!header.includes('name') || !header.includes('type') || 
+          !header.includes('start date') || !header.includes('end date')) {
+        showMessage('error', `Invalid format. Expected columns: ${expectedCols.join(', ')}`);
+        return;
+      }
+      
+      const parsed = [];
+      const errors = [];
+      
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        
+        const cols = line.split('\t').map(c => c.trim());
+        const nameIdx = header.indexOf('name');
+        const typeIdx = header.indexOf('type');
+        const startIdx = header.indexOf('start date');
+        const endIdx = header.indexOf('end date');
+        const locIdx = header.indexOf('location');
+        
+        const name = cols[nameIdx];
+        const type = cols[typeIdx];
+        const start = cols[startIdx];
+        const end = cols[endIdx];
+        const location = cols[locIdx] || 'CLC';
+        
+        if (!name) { errors.push(`Row ${i+1}: Missing name`); continue; }
+        if (!['Fellow', 'MS4', 'PSY1'].includes(type)) { 
+          errors.push(`Row ${i+1}: Invalid type "${type}". Must be Fellow, MS4, or PSY1`); 
+          continue; 
+        }
+        if (!isValidDate(start)) { errors.push(`Row ${i+1}: Invalid start date "${start}"`); continue; }
+        if (!isValidDate(end)) { errors.push(`Row ${i+1}: Invalid end date "${end}"`); continue; }
+        
+        parsed.push({ name, type, start, end, location });
+      }
+      
+      if (errors.length > 0) {
+        showMessage('error', 'Errors found:<br>' + errors.join('<br>'));
+        return;
+      }
+      
+      if (parsed.length === 0) {
+        showMessage('error', 'No valid trainee records found');
+        return;
+      }
+      
+      displayPreview(parsed);
+    } catch (err) {
+      showMessage('error', 'Error parsing file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function isValidDate(dateStr) {
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!regex.test(dateStr)) return false;
+  const date = new Date(dateStr);
+  return date instanceof Date && !isNaN(date);
+}
+
+function displayPreview(parsed) {
+  let html = '<div class="preview-section"><h2>Preview</h2>';
+  html += '<table class="preview-table"><thead><tr>';
+  html += '<th>Name</th><th>Type</th><th>Start</th><th>End</th><th>Location</th>';
+  html += '</tr></thead><tbody>';
+  
+  parsed.forEach(t => {
+    const badgeClass = `badge-${t.type.toLowerCase()}`;
+    html += `<tr>
+      <td>${t.name}</td>
+      <td><span class="type-badge ${badgeClass}">${t.type}</span></td>
+      <td>${t.start}</td>
+      <td>${t.end}</td>
+      <td>${t.location}</td>
+    </tr>`;
+  });
+  
+  html += '</tbody></table>';
+  html += '<div class="btn-group">';
+  html += `<button class="btn btn-primary" onclick="copyToClipboard('${JSON.stringify(parsed).replace(/'/g, "\\'")}')">📋 Copy as JavaScript</button>`;
+  html += `<button class="btn btn-secondary" onclick="downloadJSON('${JSON.stringify(parsed).replace(/'/g, "\\'")}')">⬇️ Download trainees.js</button>`;
+  html += '</div></div>';
+  
+  showMessage('success', `✓ Successfully parsed ${parsed.length} trainee record(s)`);
+  document.getElementById('previewSection').innerHTML = html;
+}
+
+function copyToClipboard(parsedStr) {
+  const parsed = JSON.parse(parsedStr);
+  const jsCode = 'const trainees = ' + JSON.stringify(parsed, null, 2) + ';';
+  navigator.clipboard.writeText(jsCode).then(() => {
+    showMessage('success', '✓ Code copied to clipboard!');
+  });
+}
+
+function downloadJSON(parsedStr) {
+  const parsed = JSON.parse(parsedStr);
+  const jsCode = '// Trainee data - EDIT THIS FILE to update trainee names and dates\nconst trainees = ' + JSON.stringify(parsed, null, 2) + ';\n';
+  const blob = new Blob([jsCode], { type: 'text/javascript' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'trainees.js';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function showMessage(type, msg) {
+  const messageEl = document.getElementById('uploadMessage');
+  messageEl.className = `message ${type}`;
+  messageEl.innerHTML = msg;
+}
+
+function displayTrainees() {
+  const container = document.getElementById('traineesContainer');
+  
+  if (!trainees || trainees.length === 0) {
+    container.innerHTML = '<p style="color:#666">No trainees found</p>';
+    return;
+  }
+  
+  const colors = {
+    Fellow: { bg:'#4f86c6', light:'#dbeafe' },
+    MS4: { bg:'#5a9e6f', light:'#dcfce7' },
+    PSY1: { bg:'#c47ac0', light:'#fae8ff' }
+  };
+  
+  let html = '<div class="trainees-grid">';
+  trainees.forEach(t => {
+    const c = colors[t.type];
+    html += `<div class="trainee-card" style="border-left:4px solid ${c.bg};background:${c.light};">
+      <h3>${t.name}</h3>
+      <p><strong>Type:</strong> ${t.type}</p>
+      <p><strong>Period:</strong> ${t.start} to ${t.end}</p>
+      <p><strong>Location:</strong> ${t.location}</p>
+    </div>`;
+  });
+  html += '</div>';
+  
+  container.innerHTML = html;
+}
+</script>
 
 </body>
 </html>
