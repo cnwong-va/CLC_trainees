@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Geriatric Training Program — CLC</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f4f6fb; color: #1a1a2e; padding: 20px; }
+  h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #555; margin-bottom: 18px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
+  .btn { padding: 5px 14px; border-radius: 20px; border: 1.5px solid #ccc; cursor: pointer;
+    background: #fff; color: #333; font-size: 13px; font-weight: 400; transition: all 0.15s; }
+  .btn.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; font-weight: 600; }
+  .btn-fellow.active  { background: #4f86c6; border-color: #2563eb; }
+  .btn-ms4.active     { background: #5a9e6f; border-color: #16a34a; }
+  .btn-psy1.active    { background: #c47ac0; border-color: #9333ea; }
+  .legend { display: flex; gap: 14px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+
+  /* Timeline */
+  #timeline { overflow-x: auto; }
+  .month-axis { position: relative; height: 28px; margin-left: 170px; border-bottom: 1px solid #ddd; margin-bottom: 6px; }
+  .month-label { position: absolute; font-size: 11px; color: #666; font-weight: 600;
+    transform: translateX(-50%); white-space: nowrap; top: 4px; }
+  .group-header { font-size: 12px; font-weight: 700; display: inline-block;
+    padding: 3px 10px; border-radius: 4px; margin-bottom: 6px; border: 1px solid; }
+  .tl-row { display: flex; align-items: center; margin-bottom: 6px; height: 26px; }
+  .tl-name { width: 165px; font-size: 12px; font-weight: 500; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; padding-right: 8px; flex-shrink: 0; }
+  .tl-track { flex: 1; position: relative; height: 20px; }
+  .grid-line { position: absolute; top: 0; bottom: 0; border-left: 1px solid #eee; pointer-events: none; }
+  .tl-bar { position: absolute; height: 100%; border-radius: 4px; display: flex;
+    align-items: center; justify-content: center; cursor: default; }
+  .tl-bar span { font-size: 10px; color: #fff; font-weight: 600; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+  .tl-bar:hover { opacity: 1 !important; filter: brightness(1.1); }
+  .group-block { margin-bottom: 18px; }
+
+  /* Monthly */
+  #monthly { display: none; }
+  .month-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .nav-btn { padding: 4px 14px; border-radius: 8px; border: 1.5px solid #ccc;
+    cursor: pointer; background: #fff; font-size: 18px; line-height: 1; }
+  .month-title { font-weight: 700; font-size: 16px; min-width: 180px; text-align: center; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .dow-header { text-align: center; font-size: 11px; font-weight: 700; color: #888; padding: 4px 0; }
+  .cal-cell { min-height: 76px; border: 1px solid #e5e7eb; border-radius: 6px;
+    padding: 4px 4px 2px; background: #fafafa; }
+  .cal-cell.today { border-color: #2563eb; background: #eff6ff; }
+  .cal-cell.empty { border: none; background: transparent; }
+  .day-num { font-size: 12px; font-weight: 500; color: #555; margin-bottom: 3px; }
+  .cal-cell.today .day-num { color: #2563eb; font-weight: 700; }
+  .trainee-chip { font-size: 10px; color: #fff; border-radius: 3px; padding: 1px 4px;
+    margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-weight: 600; cursor: default; }
+</style>
+</head>
+<body>
+
+<h2>Geriatric Training Program — CLC</h2>
+<p class="subtitle">AY 2026–2027 Trainee Schedule</p>
+
+<div class="controls">
+  <div style="display:flex;gap:4px">
+    <button class="btn active" id="btn-timeline" onclick="setView('timeline')">Timeline</button>
+    <button class="btn" id="btn-monthly" onclick="setView('monthly')">Monthly</button>
+  </div>
+  <div style="display:flex;gap:4px;margin-left:8px">
+    <button class="btn active" id="fAll" onclick="setFilter('All')">All</button>
+    <button class="btn btn-fellow" id="fFellow" onclick="setFilter('Fellow')">Fellow</button>
+    <button class="btn btn-ms4" id="fMS4" onclick="setFilter('MS4')">MS4</button>
+    <button class="btn btn-psy1" id="fPSY1" onclick="setFilter('PSY1')">PSY1</button>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#4f86c6"></span>Fellow</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#5a9e6f"></span>Medical Student</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#c47ac0"></span>Psych Resident</div>
+  </div>
+</div>
+
+<div id="timeline"></div>
+<div id="monthly"></div>
+
+<script src="trainees.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
