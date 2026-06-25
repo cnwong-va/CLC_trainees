@@ -24,8 +24,8 @@ An interactive trainee schedule for the Geriatric Training Program at Community 
 3. Prepare a `.txt` or `.csv` file with tab-separated columns:
    ```
    Name	Type	Start Date	End Date	Location
-   Adam Swanson	MS4	2026-07-08	2026-07-30	CLC
-   Al Ogawa	Fellow	2026-07-01	2026-08-15	CLC
+   First Last	MS4	2026-07-08	2026-07-30	CLC
+   First Last	Fellow	2026-07-01	2026-08-15	CLC
    ```
 4. Drag and drop the file into the upload area or click to browse
 5. Review the preview and download the generated `trainees.js` file
