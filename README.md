@@ -37,7 +37,7 @@ An interactive trainee schedule for the Geriatric Training Program at Community 
 Edit the `trainees.js` file directly in the repository:
 
 ```javascript
-{ type:"MS4", name:"Full Name", start:"YYYY-MM-DD", end:"YYYY-MM-DD", location:"CLC" }
+{ type:"MS4", name:"First Last", start:"YYYY-MM-DD", end:"YYYY-MM-DD", location:"CLC" }
 ```
 
 **Fields:**
@@ -50,7 +50,7 @@ Edit the `trainees.js` file directly in the repository:
 ### Example
 
 ```javascript
-{ type:"MS4", name:"John Smith", start:"2026-07-08", end:"2026-07-30", location:"CLC" }
+{ type:"MS4", name:"First Last", start:"2026-07-08", end:"2026-07-30", location:"CLC" }
 ```
 
 Save your changes and commit:
