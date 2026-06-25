@@ -13,9 +13,6 @@
   .btn { padding: 5px 14px; border-radius: 20px; border: 1.5px solid #ccc; cursor: pointer;
     background: #fff; color: #333; font-size: 13px; font-weight: 400; transition: all 0.15s; }
   .btn.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; font-weight: 600; }
-  .btn-fellow.active  { background: #4f86c6; border-color: #2563eb; }
-  .btn-ms4.active     { background: #5a9e6f; border-color: #16a34a; }
-  .btn-psy1.active    { background: #c47ac0; border-color: #9333ea; }
   .legend { display: flex; gap: 14px; align-items: center; margin-left: auto; flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
   .legend-dot { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
@@ -68,17 +65,8 @@
     <button class="btn active" id="btn-timeline" onclick="setView('timeline')">Timeline</button>
     <button class="btn" id="btn-monthly" onclick="setView('monthly')">Monthly</button>
   </div>
-  <div style="display:flex;gap:4px;margin-left:8px">
-    <button class="btn active" id="fAll" onclick="setFilter('All')">All</button>
-    <button class="btn btn-fellow" id="fFellow" onclick="setFilter('Fellow')">Fellow</button>
-    <button class="btn btn-ms4" id="fMS4" onclick="setFilter('MS4')">MS4</button>
-    <button class="btn btn-psy1" id="fPSY1" onclick="setFilter('PSY1')">PSY1</button>
-  </div>
-  <div class="legend">
-    <div class="legend-item"><span class="legend-dot" style="background:#4f86c6"></span>Fellow</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#5a9e6f"></span>Medical Student</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#c47ac0"></span>Psych Resident</div>
-  </div>
+  <div id="filterBtns" style="display:flex;gap:4px;margin-left:8px"></div>
+  <div class="legend" id="legend"></div>
 </div>
 
 <div id="timeline"></div>

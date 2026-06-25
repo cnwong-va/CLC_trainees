@@ -1,7 +1,28 @@
-const colors = {
-  Fellow: { bg:"#4f86c6", light:"#dbeafe", border:"#2563eb", text:"#1e3a5f" },
-  MS4:    { bg:"#5a9e6f", light:"#dcfce7", border:"#16a34a", text:"#14532d" },
-  PSY1:   { bg:"#c47ac0", light:"#fae8ff", border:"#9333ea", text:"#4a1772" },
+// Color palette — hues evenly spaced for readability; one assigned per unique type
+const TYPE_HUES = [213, 140, 300, 30, 0, 185, 55, 330];
+
+function buildColors(types) {
+  const map = {};
+  types.forEach((type, i) => {
+    const h = TYPE_HUES[i % TYPE_HUES.length];
+    map[type] = {
+      bg:     `hsl(${h},47%,54%)`,
+      light:  `hsl(${h},85%,94%)`,
+      border: `hsl(${h},70%,42%)`,
+      text:   `hsl(${h},58%,20%)`,
+    };
+  });
+  return map;
+}
+
+const TYPES = [...new Set(trainees.map(t => t.type))];
+const colors = buildColors(TYPES);
+
+// Known display labels; falls back to raw type name for unknown types
+const GROUP_LABELS = {
+  Fellow: "Fellows",
+  MS4:    "Medical Students (MS4)",
+  PSY1:   "Psych Residents",
 };
 
 const PROG_START = new Date(2026, 6, 1);
@@ -44,12 +65,43 @@ function setView(v) {
 
 function setFilter(f) {
   currentFilter = f;
-  ["All","Fellow","MS4","PSY1"].forEach(x => {
-    document.getElementById("f"+x).classList.remove("active");
+  ["All", ...TYPES].forEach(x => {
+    const el = document.getElementById("f" + x);
+    if (!el) return;
+    el.classList.remove("active");
+    el.style.background = "";
+    el.style.color = "";
+    el.style.borderColor = "";
   });
-  document.getElementById("f"+f).classList.add("active");
+  const activeEl = document.getElementById("f" + f);
+  if (activeEl) {
+    activeEl.classList.add("active");
+    if (f !== "All" && colors[f]) {
+      activeEl.style.background = colors[f].bg;
+      activeEl.style.color = "#fff";
+      activeEl.style.borderColor = colors[f].border;
+    }
+  }
   renderTimeline();
   if (currentView === "monthly") renderMonthly();
+}
+
+function renderControls() {
+  const filterContainer = document.getElementById("filterBtns");
+  const legendContainer = document.getElementById("legend");
+  if (!filterContainer) return;
+
+  let btnHtml = `<button class="btn active" id="fAll" onclick="setFilter('All')">All</button>`;
+  TYPES.forEach(type => {
+    btnHtml += `<button class="btn" id="f${type}" onclick="setFilter('${type}')">${type}</button>`;
+  });
+  filterContainer.innerHTML = btnHtml;
+
+  if (legendContainer) {
+    legendContainer.innerHTML = TYPES.map(type =>
+      `<div class="legend-item"><span class="legend-dot" style="background:${colors[type].bg}"></span>${GROUP_LABELS[type] || type}</div>`
+    ).join("");
+  }
 }
 
 function getFiltered() {
@@ -60,8 +112,7 @@ function getFiltered() {
 function renderTimeline() {
   const el = document.getElementById("timeline");
   const filtered = getFiltered();
-  const groups = ["Fellow","MS4","PSY1"];
-  const groupLabels = { Fellow:"Fellows", MS4:"Medical Students (MS4)", PSY1:"Psych Residents" };
+  const groups = TYPES;
 
   // Month axis
   let axisHtml = '<div class="month-axis">';
@@ -83,7 +134,7 @@ function renderTimeline() {
     if (!rows.length) return;
     const c = colors[grp];
     html += `<div class="group-block">
-      <div class="group-header" style="color:${c.text};background:${c.light};border-color:${c.border}">${groupLabels[grp]}</div>`;
+      <div class="group-header" style="color:${c.text};background:${c.light};border-color:${c.border}">${GROUP_LABELS[grp] || grp}</div>`;
     rows.forEach(t => {
       const s = pct(t.start), e = pct(t.end);
       const gridLines = gridPcts.map(p => `<div class="grid-line" style="left:${p}%"></div>`).join("");
@@ -154,6 +205,7 @@ function changeMonth(dir) {
 }
 
 // Init
+renderControls();
 renderTimeline();
 document.getElementById("timeline").style.display = "block";
 document.getElementById("monthly").style.display = "none";
