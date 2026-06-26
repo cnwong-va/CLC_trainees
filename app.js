@@ -15,7 +15,9 @@ function buildColors(types) {
   return map;
 }
 
-const TYPES = [...new Set(trainees.map(t => t.type))];
+const allTypes = [...new Set(trainees.map(t => t.type))];
+const TYPE_ORDER = ['Fellow', 'MS4', 'PSY1'];
+const TYPES = [...TYPE_ORDER.filter(t => allTypes.includes(t)), ...allTypes.filter(t => !TYPE_ORDER.includes(t))];
 const colors = buildColors(TYPES);
 
 // Known display labels; falls back to raw type name for unknown types
