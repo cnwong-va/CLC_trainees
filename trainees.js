@@ -1,20 +1,115 @@
 // Trainee data - EDIT THIS FILE to update trainee names and dates
 const trainees = [
-  { type:"MS4",    name:"Adam R Swanson",          start:"2026-07-08", end:"2026-07-30", location:"CLC" },
-  { type:"MS4",    name:"Aaron Yamasaki",           start:"2026-08-05", end:"2026-08-27", location:"CLC" },
-  { type:"MS4",    name:"Tyler Liu",                start:"2026-09-02", end:"2026-09-24", location:"CLC" },
-  { type:"MS4",    name:"Kasen Wong",               start:"2026-09-30", end:"2026-10-22", location:"CLC" },
-  { type:"MS4",    name:"Saige Fong",               start:"2027-02-03", end:"2027-02-25", location:"CLC" },
-  { type:"MS4",    name:"Marci Takemoto",           start:"2027-03-03", end:"2027-03-24", location:"CLC" },
-  { type:"MS4",    name:"Elizabeth Rooks",          start:"2027-04-07", end:"2027-04-29", location:"CLC" },
-  { type:"Fellow", name:"Al Ogawa",                 start:"2026-07-01", end:"2026-08-15", location:"CLC" },
-  { type:"Fellow", name:"Jaime Fong",               start:"2026-08-16", end:"2026-09-15", location:"CLC" },
-  { type:"Fellow", name:"Alyssa Finger",            start:"2026-11-16", end:"2026-12-15", location:"CLC" },
-  { type:"Fellow", name:"Kalei Hosaka",             start:"2027-01-16", end:"2027-02-15", location:"CLC" },
-  { type:"Fellow", name:"Remy Rodrigues Chardon",   start:"2027-03-16", end:"2027-04-15", location:"CLC" },
-  { type:"Fellow", name:"Stephen Rueda",            start:"2027-05-16", end:"2027-06-30", location:"CLC" },
-  { type:"PSY1",   name:"Jaymie Fines",             start:"2026-08-03", end:"2026-08-10", location:"CLC" },
-  { type:"PSY1",   name:"Conner Darlington",        start:"2026-11-16", end:"2026-11-19", location:"CLC" },
-  { type:"PSY1",   name:"Emily Han",                start:"2027-05-20", end:"2027-05-27", location:"CLC" },
-  { type:"PSY1",   name:"Joanna Ajex Palvannan",    start:"2027-06-10", end:"2027-06-17", location:"CLC" },
+  {
+    "name": "Al Ogawa",
+    "type": "Fellow",
+    "start": "2027-03-16",
+    "end": "2027-04-15",
+    "location": "CLC"
+  },
+  {
+    "name": "Jaime Fong",
+    "type": "Fellow",
+    "start": "2026-09-16",
+    "end": "2026-10-15",
+    "location": "CLC"
+  },
+  {
+    "name": "Alyssa Finger",
+    "type": "Fellow",
+    "start": "2026-11-16",
+    "end": "2026-12-15",
+    "location": "CLC"
+  },
+  {
+    "name": "Kalei Hosaka",
+    "type": "Fellow",
+    "start": "2027-01-26",
+    "end": "2027-02-15",
+    "location": "CLC"
+  },
+  {
+    "name": "Remy Rodrigues Chardon",
+    "type": "Fellow",
+    "start": "2026-07-14",
+    "end": "2026-08-15",
+    "location": "CLC"
+  },
+  {
+    "name": "Adam R Swanson",
+    "type": "MS4",
+    "start": "2026-07-08",
+    "end": "2026-07-30",
+    "location": "CLC"
+  },
+  {
+    "name": "Aaron Yamasaki",
+    "type": "MS4",
+    "start": "2026-08-05",
+    "end": "2026-08-27",
+    "location": "CLC"
+  },
+  {
+    "name": "Tyler Liu",
+    "type": "MS4",
+    "start": "2026-09-02",
+    "end": "2026-09-24",
+    "location": "CLC"
+  },
+  {
+    "name": "Kasen Wong",
+    "type": "MS4",
+    "start": "2026-09-30",
+    "end": "2026-10-22",
+    "location": "CLC"
+  },
+  {
+    "name": "Ryan Nishi",
+    "type": "MS4",
+    "start": "2027-02-03",
+    "end": "2027-02-25",
+    "location": "CLC"
+  },
+  {
+    "name": "Marci Takemoto",
+    "type": "MS4",
+    "start": "2027-03-03",
+    "end": "2027-03-24",
+    "location": "CLC"
+  },
+  {
+    "name": "Elizabeth Rooks",
+    "type": "MS4",
+    "start": "2027-04-07",
+    "end": "2027-04-29",
+    "location": "CLC"
+  },
+  {
+    "name": "Jaymie Fines",
+    "type": "PSY",
+    "start": "2026-07-27",
+    "end": "2026-07-30",
+    "location": "CLC"
+  },
+  {
+    "name": "Conner Darlington",
+    "type": "PSY",
+    "start": "2026-11-16",
+    "end": "2026-11-19",
+    "location": "CLC"
+  },
+  {
+    "name": "Emily Han",
+    "type": "PSY",
+    "start": "2027-05-20",
+    "end": "2027-05-27",
+    "location": "CLC"
+  },
+  {
+    "name": "Joanna Ajex Palvannan",
+    "type": "PSY",
+    "start": "2027-06-10",
+    "end": "2027-06-17",
+    "location": "CLC"
+  }
 ];
