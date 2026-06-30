@@ -132,7 +132,7 @@ function renderTimeline() {
   const gridPcts = [0,8.33,16.67,25,33.33,41.67,50,58.33,66.67,75,83.33,91.67,100];
 
   groups.forEach(grp => {
-    const rows = filtered.filter(t => t.type === grp);
+    const rows = filtered.filter(t => t.type === grp).sort((a, b) => a.start.localeCompare(b.start));
     if (!rows.length) return;
     const c = colors[grp];
     html += `<div class="group-block">
