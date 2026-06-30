@@ -24,7 +24,7 @@ const trainees = [
   {
     "name": "Kalei Hosaka",
     "type": "Fellow",
-    "start": "2027-01-26",
+    "start": "2027-01-16",
     "end": "2027-02-15",
     "location": "CLC"
   },
