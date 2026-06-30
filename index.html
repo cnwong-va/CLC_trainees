@@ -101,13 +101,13 @@
   <div id="upload" class="tab-content active">
     <div class="format-info">
       <h3>📋 Expected Format</h3>
-      <p>Upload a <strong>tab-delimited</strong> text file (.txt or .csv) with the following columns:</p>
+      <p>Upload a <strong>comma-delimited</strong> text file (.txt or .csv) with the following columns:</p>
       <p><code>Name</code> | <code>Type</code> | <code>Start Date</code> | <code>End Date</code> | <code>Location</code></p>
       <p><strong>Example:</strong></p>
       <p style="background:#fff;padding:8px;border-radius:3px;font-family:monospace;font-size:12px;overflow-x:auto">
-        Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Type&nbsp;&nbsp;Start Date&nbsp;&nbsp;End Date&nbsp;&nbsp;&nbsp;&nbsp;Location<br>
-        First Last&nbsp;MS4&nbsp;&nbsp;&nbsp;2026-07-08&nbsp;&nbsp;&nbsp;2026-07-30&nbsp;&nbsp;CLC<br>
-        First Last&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fellow&nbsp;2026-07-01&nbsp;&nbsp;&nbsp;2026-08-15&nbsp;&nbsp;CLC
+        Name,Type,Start Date,End Date,Location<br>
+        First Last,MS4,2026-07-08,2026-07-30,CLC<br>
+        First Last,Fellow,2026-07-01,2026-08-15,CLC
       </p>
       <p><strong>Type:</strong> Any string label (e.g. Fellow, MS4, PSY1) — colors assigned automatically</p>
       <p><strong>Dates:</strong> YYYY-MM-DD format</p>
@@ -201,7 +201,8 @@ function processFile(file) {
         return;
       }
       
-      const header = lines[0].split('\t').map(h => h.trim().toLowerCase());
+      const delimiter = lines[0].includes('\t') ? '\t' : ',';
+      const header = lines[0].split(delimiter).map(h => h.trim().toLowerCase());
       const expectedCols = ['name', 'type', 'start date', 'end date', 'location'];
       
       if (!header.includes('name') || !header.includes('type') || 
@@ -217,7 +218,7 @@ function processFile(file) {
         const line = lines[i].trim();
         if (!line) continue;
         
-        const cols = line.split('\t').map(c => c.trim());
+        const cols = line.split(delimiter).map(c => c.trim());
         const nameIdx = header.indexOf('name');
         const typeIdx = header.indexOf('type');
         const startIdx = header.indexOf('start date');
