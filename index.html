@@ -366,7 +366,7 @@ function displayTrainees() {
 
   let html = '';
   typeList.forEach(type => {
-    const group = trainees.filter(t => t.type === type);
+    const group = trainees.filter(t => t.type === type).sort((a, b) => a.start.localeCompare(b.start));
     const c = typeColors[type] || { bg: '#888', light: '#eee', text: '#333' };
     html += `<div style="margin-bottom:24px">
       <div style="font-size:14px;font-weight:700;padding:6px 12px;border-radius:6px;display:inline-block;
